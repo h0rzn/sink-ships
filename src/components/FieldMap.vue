@@ -1,6 +1,6 @@
 <template>
     <div id="map">
-        <div class="cell" v-for="n in 20" :key="n">
+        <div class="cell" v-for="n in 16" :key="n">
             <MapCell :key="n" @cell-fired="() => {}" :x="n" :y=0 />
         </div>
     </div>
@@ -25,7 +25,7 @@ import MapCell from './MapCell.vue';
     grid-template-columns: 25% 25% 25% 25%; 
 }
 
-.class {
+.cell {
     width: 100px;
     height: 100px;
 }

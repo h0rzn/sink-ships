@@ -1,10 +1,7 @@
 <template>
-    <!-- <div class="cell"> -->
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <circle @click="$emit('cellFired', $event)" ref="circle" class="cell-icon" cx="50%" cy="50%" r="25" fill="rgba(0, 0, 0, 0)" stroke="#fff"/>
-
+        <circle class="cell-icon" @click="$emit('cellFired', $event)" ref="circle" cx="50%" cy="50%" r="25" fill="rgba(0, 0, 0, 0)" stroke="#fff"/>
     </svg>
-    <!-- </div> -->
 </template>
 
 <script setup lang="ts">
@@ -18,11 +15,6 @@ defineProps<{
 const emits = defineEmits(['cellFired']);
 
 const circle = ref<SVGElement>();
-
-
-// const setMiss = () => {}
-
-// const setHit = () => {}
 
 onMounted(() => {
     circle.value?.addEventListener("click", (event: MouseEvent) => {
