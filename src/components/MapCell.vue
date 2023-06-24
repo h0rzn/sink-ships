@@ -7,12 +7,12 @@
 <script setup lang="ts">
 import { onMounted, ref, defineEmits, defineProps } from 'vue';
 
-defineProps<{
-    x: number,
-    y: number
+const props = defineProps<{
+    row: number,
+    col: number
 }>()
 
-const emits = defineEmits(['cellFired']);
+defineEmits(['cellFired']);
 
 const circle = ref<SVGElement>();
 const unfired = ref<boolean>(true);
@@ -21,6 +21,8 @@ const firedClass = ref('cell-fired')
 
 onMounted(() => {
     circle.value?.addEventListener("click", (event: MouseEvent) => {
+        console.log("cell click:", props.row, props.col)
+
         if (unfired.value) {
             const el = event.target as HTMLElement;
             el.style.fill = "#fff";

@@ -1,7 +1,7 @@
 <template>
     <div id="map">
-        <div class="cell" v-for="n in 16" :key="n">
-            <MapCell :key="n" @cell-fired="() => {}" :x="n" :y=0 />
+        <div class="cell" v-for="n in mapFields" :key="n">
+            <MapCell :key="n" @cell-fired="() => {}" :row="createGetRow(n)" :col="createGetCol(n)" />
         </div>
     </div>
     
@@ -9,7 +9,22 @@
 
 <script setup lang="ts">
 import MapCell from './MapCell.vue';
-// css grid: https://kulturbanause.de/blog/css-grid-layout-module/
+
+
+//
+// PLAYFIELD GENERATION
+//
+const mapFields = 16
+
+const createGetRow = (index: number): number => {
+    index = index - 1;
+    return Math.floor(index / 4);
+}
+
+const createGetCol = (index: number): number => {
+    index = index - 1;
+    return index % 4;
+}
 
 </script>
 
