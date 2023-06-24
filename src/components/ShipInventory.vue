@@ -2,7 +2,7 @@
 
     <div id="harbor">
         <div id="inventory">
-            <p style="text-align: center;">inventory here</p>
+            <ShipItem />
         </div>
 
     </div>
@@ -10,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+import ShipItem from './ShipItem.vue';
 
 </script>
 
