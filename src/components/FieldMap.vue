@@ -25,7 +25,6 @@ const createGetCol = (index: number): number => {
     index = index - 1;
     return index % 4;
 }
-
 </script>
 
 <style>
