@@ -1,4 +1,4 @@
-class Remote {
+class RTC {
     localCon: RTCPeerConnection;
     sendChan: RTCDataChannel;
 
