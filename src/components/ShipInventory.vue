@@ -2,7 +2,8 @@
 
     <div id="inventory">
         <div id="ship-storage">
-            <ShipItem />
+            <ShipItem ref="ship" @drag-to="(x) => handleShipMove(x)"/>
+            <!-- <OldShipItem /> -->
         </div>
 
     </div>
@@ -10,8 +11,15 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import ShipItem from './ShipItem.vue';
+// import OldShipItem from './OldShipItem.vue';
 
+const ship = ref<HTMLElement>();
+
+const handleShipMove = (x: number) => {
+    console.log("ship is moving", x);
+}
 </script>
 
 <style>

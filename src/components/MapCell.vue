@@ -12,6 +12,7 @@ const props = defineProps<{
     col: number
 }>()
 
+
 defineEmits(['cellFired']);
 
 const circle = ref<SVGElement>();

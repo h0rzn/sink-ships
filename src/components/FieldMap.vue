@@ -1,7 +1,7 @@
 <template>
     <div id="map">
         <div class="cell" v-for="n in mapFields" :key="n">
-            <MapCell :key="n" @cell-fired="() => {}" :row="createGetRow(n)" :col="createGetCol(n)" />
+            <MapCell :key="n" @cell-fired="(e) => yip(e)" :row="createGetRow(n)" :col="createGetCol(n)" />
         </div>
     </div>
     
@@ -24,6 +24,10 @@ const createGetRow = (index: number): number => {
 const createGetCol = (index: number): number => {
     index = index - 1;
     return index % 4;
+}
+
+const yip = (event: MouseEvent) => {
+    console.log("yip");
 }
 </script>
 
