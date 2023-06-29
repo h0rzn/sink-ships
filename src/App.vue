@@ -31,6 +31,7 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
+  background-color: #242424;
 }
 
 #app-content {

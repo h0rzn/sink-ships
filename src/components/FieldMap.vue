@@ -31,12 +31,11 @@ const createGetCol = (index: number): number => {
 #map {
     height: 400px;
     width: 400px;
-    background-color: blue;
-
     display: grid; 
-    /* grid-template-rows: 200px 1fr 100px;  */
     grid-template-rows: 25% 25% 25% 25%;
-    grid-template-columns: 25% 25% 25% 25%; 
+    grid-template-columns: 25% 25% 25% 25%;
+    border: 1px solid #fff;
+    border-radius: 10%;
 }
 
 .cell {
