@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, defineEmits, defineProps } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const props = defineProps<{
     row: number,

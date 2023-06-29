@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import MapCell from './MapCell.vue';
 
 const mapFields = 16;
