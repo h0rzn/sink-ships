@@ -1,33 +1,39 @@
 <template>
     <div id="map">
-        <div class="cell" v-for="n in mapFields" :key="n">
-            <MapCell :key="n" @cell-fired="(e) => yip(e)" :row="createGetRow(n)" :col="createGetCol(n)" />
+        <div class="cell" v-for="(cell, index) in cells" :key="index">
+            <MapCell :key="index" @cell-fired="cellFired" :row="cell.x" :col="cell.y" />
         </div>
     </div>
     
 </template>
 
 <script setup lang="ts">
+import { ref, defineEmits, onMounted } from 'vue';
 import MapCell from './MapCell.vue';
 
+const mapFields = 16;
 
-//
-// PLAYFIELD GENERATION
-//
-const mapFields = 16
-
-const createGetRow = (index: number): number => {
-    index = index - 1;
-    return Math.floor(index / 4);
+type Cell = {
+    x: number,
+    y: number;
 }
 
-const createGetCol = (index: number): number => {
-    index = index - 1;
-    return index % 4;
-}
+const cells = ref<Cell[]>([]);
 
-const yip = (event: MouseEvent) => {
-    console.log("yip");
+onMounted(() => {
+    // populate cells
+    for (let i = 0; i < mapFields; i++) {
+        let cell = {
+            x: Math.floor(i / 4),
+            y: i % 4
+        }
+        cells.value.push(cell);
+    }
+
+})
+
+const cellFired = (x: number, y: number) => {
+    console.log("fired", x, y)
 }
 </script>
 

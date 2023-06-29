@@ -1,6 +1,6 @@
 <template>
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <circle :class="[ unfired ? unfiredClass : firedClass ]" @click="$emit('cellFired', $event)" ref="circle" cx="50%" cy="50%" r="25" fill="rgba(0, 0, 0, 0)" stroke="#fff"/>
+        <circle :class="[ unfired ? unfiredClass : firedClass ]" @click="$emit('cellFired', row, col)" ref="circle" cx="50%" cy="50%" r="25" fill="rgba(0, 0, 0, 0)" stroke="#fff"/>
     </svg>
 </template>
 
