@@ -1,21 +1,17 @@
 <template>
   <div id="app-content">
-    <ShipInventory />
-    <FieldMap />
+    <ShipGame />
   </div>
-  
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import FieldMap from './components/FieldMap.vue';
-import ShipInventory from './components/ShipInventory.vue';
+import ShipGame from './components/ShipGame.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    FieldMap,
-    ShipInventory
+    ShipGame
   }
 });
 </script>
@@ -36,8 +32,5 @@ html, body {
 #app-content {
   width: 100%;
   height: 100vh;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
 }
 </style>
