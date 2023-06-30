@@ -1,54 +1,63 @@
 <template>
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <circle :class="[ unfired ? unfiredClass : firedClass ]" @click="$emit('cellFired', row, col)" ref="circle" cx="50%" cy="50%" r="25" fill="rgba(0, 0, 0, 0)" stroke="#fff"/>
+        <circle ref="circle" :class="[ props.state == 0 ? hoverableCls : fadeOutCls ]" cx="50%" cy="50%" r="25" fill="rgba(0, 0, 0, 0)" stroke="rgba(255, 255, 255, 1)" stroke-width="2"/>
     </svg>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { defineEmits, defineProps } from 'vue';
 
 const props = defineProps<{
     row: number,
-    col: number
+    col: number,
+    state: number
 }>()
 
-
-defineEmits(['cellFired']);
-
+const emit = defineEmits(['cell-fired']);
 const circle = ref<SVGElement>();
-const unfired = ref<boolean>(true);
-const unfiredClass = ref('cell-hoverable')
-const firedClass = ref('cell-fired')
+const hoverableCls = ref("hoverable");
+const fadeOutCls = ref("fadeout");
 
 onMounted(() => {
     circle.value?.addEventListener("click", (event: MouseEvent) => {
-        console.log("cell click:", props.row, props.col)
-
-        if (unfired.value) {
-            const el = event.target as HTMLElement;
-            el.style.fill = "#fff";
-            unfired.value = false;
+        if (props.state == 0) {
+            emit("cell-fired", props.row, props.col);
         }
     })
+})
+
+watch(props, () => {
+    switch (props.state) {
+        case 1: // target miss
+            if (circle.value) {
+                circle.value.style.stroke = "rgba(255, 255, 255, 0.4)"
+            }
+            break;
+        case 2: // target hit
+            if (circle.value) {
+                circle.value.style.stroke = "rgba(255, 0, 0, 1)"
+            }
+            break;
+        default: 
+            break;
+    }
 })
 
 </script>
 
 <style>
-.cell-hoverable {
+.hoverable {
     transform-origin: center center;
     transition: transform .2s;
 }
-.cell-hoverable:hover {
+.hoverable:hover {
     transform: scale(1.2, 1.2);
 }
 
-.cell-fired {
+.fadeout {
     transform-origin: center center;
-    transition: transform .3s;
-    fill: blueviolet;
-}
-.cell-fired:hover {
+    transition: transform .2s;
     transform: scale(1, 1);
 }
 </style>

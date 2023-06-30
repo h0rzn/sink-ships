@@ -1,39 +1,57 @@
 <template>
     <div id="map">
         <div class="cell" v-for="(cell, index) in cells" :key="index">
-            <MapCell :key="index" @cell-fired="cellFired" :row="cell.x" :col="cell.y" />
+            <MapCell :key="index" :ref="cell.item" @cell-fired="cellFired" :row="cell.x" :col="cell.y" :state="cell.state"/>
         </div>
     </div>
     
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, Ref } from 'vue';
 import MapCell from './MapCell.vue';
 
-const mapFields = 16;
-
+const size = 16;
 type Cell = {
     x: number,
     y: number;
+    // 0 -> untouched
+    // 1 -> miss
+    // 2 -> hit
+    state: number;
+    item: Ref;
 }
 
 const cells = ref<Cell[]>([]);
 
 onMounted(() => {
     // populate cells
-    for (let i = 0; i < mapFields; i++) {
+    const dim: number = Math.sqrt(size)
+    for (let i = 0; i < size; i++) {
+        const x = Math.floor(i / dim);
+        const y = i % dim;
         let cell = {
-            x: Math.floor(i / 4),
-            y: i % 4
+            x: x,
+            y: y,
+            state: 0,
+            item: ref(x.toString() + y.toString())
         }
         cells.value.push(cell);
     }
-
 })
 
 const cellFired = (x: number, y: number) => {
-    console.log("fired", x, y)
+    let cell = getCell(x, y);
+    if (cell) {
+        console.log("cell identified, state:", cell.state);
+        if (cell.state == 0) {
+            cell.state = (Math.random() > 0.5 ? 1 : 2);
+        }
+    }
+}
+
+const getCell = (x: number, y: number): Cell | undefined => {
+    return cells.value.find((cell: Cell) => cell.x == x && cell.y == y);
 }
 </script>
 
