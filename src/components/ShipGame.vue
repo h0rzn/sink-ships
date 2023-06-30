@@ -1,9 +1,12 @@
 <template>
-    <button @click="btnClick">connect</button>
-    <input ref="input" value=""/>
-    <p style="color: #fff">{{ localID }}</p>
+    <div v-if="!dataCon">
+        <button @click="btnClick">connect</button>
+        <input ref="input" value=""/>
+        <p style="color: #fff">{{ localID }}</p>
+    </div>
+    
     <div id="game">
-        <FieldMap ref="map"/>
+        <FieldMap ref="map" @fired="firedAt"/>
     </div>
 
 </template>
@@ -28,6 +31,10 @@ onMounted(() => {
     });
     localPeer.value.on("connection", (con: DataConnection) => {
         console.log("on connection", con);
+        dataCon.value = con;
+        dataCon.value.on("data", (data) => {
+            console.log("data", data);
+        })
     });
 })
 
@@ -38,6 +45,12 @@ const btnClick = (event: MouseEvent) => {
         dataCon.value = localPeer.value?.connect(remoteID);
     }
     console.log("data-con after remote connect", dataCon.value);
+}
+
+const firedAt = (x: number, y: number) => {
+    console.log("GAME: ", x, y);
+    dataCon.value?.send({x: x, y: y})
+    map.value.test();
 }
 
 </script>

@@ -4,12 +4,15 @@
             <MapCell :key="index" :ref="cell.item" @cell-fired="cellFired" :row="cell.x" :col="cell.y" :state="cell.state"/>
         </div>
     </div>
-    
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, Ref } from 'vue';
+import { ref, onMounted, Ref, defineEmits, defineExpose } from 'vue';
 import MapCell from './MapCell.vue';
+
+defineExpose({
+    test
+})
 
 const size = 16;
 type Cell = {
@@ -23,6 +26,7 @@ type Cell = {
 }
 
 const cells = ref<Cell[]>([]);
+const emit = defineEmits(["fired"])
 
 onMounted(() => {
     // populate cells
@@ -46,12 +50,17 @@ const cellFired = (x: number, y: number) => {
         console.log("cell identified, state:", cell.state);
         if (cell.state == 0) {
             cell.state = (Math.random() > 0.5 ? 1 : 2);
+            emit("fired", x, y);
         }
     }
 }
 
 const getCell = (x: number, y: number): Cell | undefined => {
     return cells.value.find((cell: Cell) => cell.x == x && cell.y == y);
+}
+
+function test() {
+    console.log("test")
 }
 </script>
 
