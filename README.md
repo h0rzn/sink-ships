@@ -1,4 +1,11 @@
 # sink-ships
+Small -**wip**- 'sink ships' game based on Vue. 
+
+### Milestones
+- [ ] Finish UI
+- [ ] Finish Game Logic 
+- [ ] RTC-based Multiplay-Mode
+- [ ] Themes
 
 ## Packet Documentation
 
