@@ -1,8 +1,7 @@
 <template>
     <div v-if="!dataCon">
-        <button @click="btnClick">connect</button>
-        <input ref="input" value=""/>
-        <p style="color: #fff">{{ localID }}</p>
+        <button @click="copyLocalID">copy local-ID</button>
+        <input ref="input" value="" @paste="afterpaste"/>
     </div>
     
     <div id="game">
@@ -15,6 +14,7 @@
 import { onMounted, ref } from 'vue';
 import FieldMap from './FieldMap.vue';
 import { Peer, DataConnection } from 'peerjs';
+import { Ship, Cords } from '@/GameHelpers';
 
 const localID = ref<string>();
 const input = ref<HTMLInputElement>();
@@ -22,35 +22,87 @@ const localPeer = ref<Peer>();
 const dataCon = ref<DataConnection>();
 
 const map = ref();
+const ships = ref<Ship[]>([]);
 
 onMounted(() => {
+    let ship1: Ship = {
+        x: [0, 3],
+        y: [0, 0],
+    }
+    ships.value?.push(ship1);
+
+    // let ship2: Ship = {
+    //     x: [0, 0],
+    //     y: [0, 3],
+    //     destroyed: false
+    // }
+    // ships.value?.push(ship2);
+
+    // mark ships
+
+    ships.value.forEach((ship: Ship) => {
+        for (let r = ship.y[0]; r <= ship.y[1]; r++) {
+            for (let c = ship.x[0]; c <= ship.x[1]; c++) {
+                map.value.markCell(c, r);
+            }
+        }
+    })
+
+    // networking
     localPeer.value = new Peer();
     localPeer.value.on('open', (id: string) => {
-        console.log('peer id: ' + id);
         localID.value = id;
     });
     localPeer.value.on("connection", (con: DataConnection) => {
-        console.log("on connection", con);
+        console.log("[remote] connected to local");
         dataCon.value = con;
+        
         dataCon.value.on("data", (data) => {
-            console.log("data", data);
+            const cords = data as Cords; 
+            map.value.fireAt(cords.x, cords.y);
+            if (isHit(cords.x, cords.y)) {
+                console.log("remote shot is hit")
+                map.value.updateCell(cords.x, cords.y, 2)
+            } else {
+                map.value.updateCell(cords.x, cords.y, 1)
+            }
         })
     });
 })
 
-const btnClick = (event: MouseEvent) => {
-    console.log("btn click");
-    const remoteID: string | undefined = input.value?.value;
-    if (remoteID) {
-        dataCon.value = localPeer.value?.connect(remoteID);
+const copyLocalID = () => {
+    if (localID.value) {
+        navigator.clipboard.writeText(localID.value);
+        console.log("local id copied", localID.value)
     }
-    console.log("data-con after remote connect", dataCon.value);
+}
+
+const afterpaste = () => {
+    setTimeout(() => {
+        const remoteID: string | undefined = input.value?.value;
+        if (remoteID) {
+            dataCon.value = localPeer.value?.connect(remoteID);
+        }
+        console.log("[local] connected to remote", remoteID, dataCon.value);
+    }, 500)
 }
 
 const firedAt = (x: number, y: number) => {
-    console.log("GAME: ", x, y);
-    dataCon.value?.send({x: x, y: y})
-    map.value.test();
+    console.log("[remote] fired: ", x, y);
+    dataCon.value?.send({x: x, y: y});
+}
+
+const isHit = (x: number, y: number): boolean => {
+    ships.value?.forEach((ship: Ship) => {
+        if (onShip(ship, x, y)) {
+            return true
+        }
+    })
+    return false;
+}
+
+const onShip = (ship: Ship, x: number, y: number): boolean => {
+    return x >= ship.x[0] && x <= ship.x[1] && y >= ship.y[0] && y <= ship.y[1];
 }
 
 </script>

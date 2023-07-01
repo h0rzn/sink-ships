@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import { defineEmits, defineProps } from 'vue';
+import { CellState } from '../GameHelpers';
 
 const props = defineProps<{
     row: number,
@@ -20,8 +21,15 @@ const hoverableCls = ref("hoverable");
 const fadeOutCls = ref("fadeout");
 
 onMounted(() => {
+    
+    if (props.state == CellState.marked) {
+        if (circle.value) {
+            circle.value.style.fill = "rgba(0, 255, 0, 1)"
+        }
+    }
+
     circle.value?.addEventListener("click", (event: MouseEvent) => {
-        if (props.state == 0) {
+        if (props.state == CellState.raw || props.state == CellState.marked) {
             emit("cell-fired", props.row, props.col);
         }
     })
@@ -29,14 +37,19 @@ onMounted(() => {
 
 watch(props, () => {
     switch (props.state) {
-        case 1: // target miss
+        case CellState.raw: // target miss
             if (circle.value) {
                 circle.value.style.stroke = "rgba(255, 255, 255, 0.4)"
             }
             break;
-        case 2: // target hit
+        case CellState.hit: // target hit
             if (circle.value) {
                 circle.value.style.stroke = "rgba(255, 0, 0, 1)"
+            }
+            break;
+        case CellState.marked: // mark cell
+            if (circle.value) {
+                circle.value.style.fill = "rgba(0, 255, 0, 1)"
             }
             break;
         default: 

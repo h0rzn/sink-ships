@@ -7,23 +7,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, Ref, defineEmits, defineExpose } from 'vue';
+import { ref, onMounted, defineEmits, defineExpose } from 'vue';
 import MapCell from './MapCell.vue';
+import { Cell, CellState } from '../GameHelpers';
 
 defineExpose({
-    test
+    fireAt,
+    markCell,
+    updateCell
 })
 
 const size = 16;
-type Cell = {
-    x: number,
-    y: number;
-    // 0 -> untouched
-    // 1 -> miss
-    // 2 -> hit
-    state: number;
-    item: Ref;
-}
 
 const cells = ref<Cell[]>([]);
 const emit = defineEmits(["fired"])
@@ -47,9 +41,8 @@ onMounted(() => {
 const cellFired = (x: number, y: number) => {
     let cell = getCell(x, y);
     if (cell) {
-        console.log("cell identified, state:", cell.state);
-        if (cell.state == 0) {
-            cell.state = (Math.random() > 0.5 ? 1 : 2);
+        if (cell.state == CellState.raw || cell.state == CellState.marked) {
+            // cell.state = (Math.random() > 0.5 ? 1 : 2);
             emit("fired", x, y);
         }
     }
@@ -59,8 +52,27 @@ const getCell = (x: number, y: number): Cell | undefined => {
     return cells.value.find((cell: Cell) => cell.x == x && cell.y == y);
 }
 
-function test() {
-    console.log("test")
+function fireAt(x: number, y: number) {
+    let cell = getCell(x, y);
+    if (cell) {
+        cell.state = 2;
+    }
+    
+}
+
+function updateCell(x: number, y: number, state: number) {
+    let cell = getCell(x, y);
+    if (cell) { // TODO check state 
+        cell.state = state;
+    }
+}
+
+
+function markCell(x: number, y: number) {
+    let cell = getCell(x, y);
+    if (cell) {
+        cell.state = 3;
+    }
 }
 </script>
 
