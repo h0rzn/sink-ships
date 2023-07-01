@@ -12,8 +12,6 @@ import MapCell from './MapCell.vue';
 import { Cell, CellState } from '../GameHelpers';
 
 defineExpose({
-    fireAt,
-    markCell,
     updateCell
 })
 
@@ -28,7 +26,7 @@ onMounted(() => {
     for (let i = 0; i < size; i++) {
         const x = Math.floor(i / dim);
         const y = i % dim;
-        let cell = {
+        let cell: Cell = {
             x: x,
             y: y,
             state: 0,
@@ -42,7 +40,6 @@ const cellFired = (x: number, y: number) => {
     let cell = getCell(x, y);
     if (cell) {
         if (cell.state == CellState.raw || cell.state == CellState.marked) {
-            // cell.state = (Math.random() > 0.5 ? 1 : 2);
             emit("fired", x, y);
         }
     }
@@ -52,26 +49,10 @@ const getCell = (x: number, y: number): Cell | undefined => {
     return cells.value.find((cell: Cell) => cell.x == x && cell.y == y);
 }
 
-function fireAt(x: number, y: number) {
-    let cell = getCell(x, y);
-    if (cell) {
-        cell.state = 2;
-    }
-    
-}
-
 function updateCell(x: number, y: number, state: number) {
     let cell = getCell(x, y);
     if (cell) { // TODO check state 
         cell.state = state;
-    }
-}
-
-
-function markCell(x: number, y: number) {
-    let cell = getCell(x, y);
-    if (cell) {
-        cell.state = 3;
     }
 }
 </script>

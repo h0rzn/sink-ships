@@ -7,12 +7,12 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import { defineEmits, defineProps } from 'vue';
-import { CellState } from '../GameHelpers';
+import { Cell, CellState } from '../GameHelpers';
 
 const props = defineProps<{
     row: number,
     col: number,
-    state: number
+    state: number 
 }>()
 
 const emit = defineEmits(['cell-fired']);
@@ -21,14 +21,13 @@ const hoverableCls = ref("hoverable");
 const fadeOutCls = ref("fadeout");
 
 onMounted(() => {
-    
     if (props.state == CellState.marked) {
         if (circle.value) {
             circle.value.style.fill = "rgba(0, 255, 0, 1)"
         }
     }
 
-    circle.value?.addEventListener("click", (event: MouseEvent) => {
+    circle.value?.addEventListener("click", () => {
         if (props.state == CellState.raw || props.state == CellState.marked) {
             emit("cell-fired", props.row, props.col);
         }
@@ -36,23 +35,27 @@ onMounted(() => {
 })
 
 watch(props, () => {
+    console.log("cell state", props.state);
     switch (props.state) {
-        case CellState.raw: // target miss
+        case 0: // target miss
             if (circle.value) {
+                console.log("changing cell style raw")
                 circle.value.style.stroke = "rgba(255, 255, 255, 0.4)"
             }
             break;
-        case CellState.hit: // target hit
+        case CellState.hit || 2: // target hit
             if (circle.value) {
+                console.log("changing cell style hit")
                 circle.value.style.stroke = "rgba(255, 0, 0, 1)"
             }
             break;
-        case CellState.marked: // mark cell
+        case CellState.marked || 3: // mark cell
             if (circle.value) {
+                console.log("changing cell style marked")
                 circle.value.style.fill = "rgba(0, 255, 0, 1)"
             }
             break;
-        default: 
+        default:
             break;
     }
 })
