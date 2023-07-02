@@ -29,7 +29,7 @@ onMounted(() => {
         let cell: Cell = {
             x: x,
             y: y,
-            state: 0,
+            state: CellState.raw,
             item: ref(x.toString() + y.toString())
         }
         cells.value.push(cell);

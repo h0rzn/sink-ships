@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import { defineEmits, defineProps } from 'vue';
-import { Cell, CellState } from '../GameHelpers';
+import { CellState } from '../GameHelpers';
 
 const props = defineProps<{
     row: number,
@@ -34,30 +34,22 @@ onMounted(() => {
     })
 })
 
-watch(props, () => {
-    console.log("cell state", props.state);
-    switch (props.state) {
-        case 0: // target miss
-            if (circle.value) {
-                console.log("changing cell style raw")
-                circle.value.style.stroke = "rgba(255, 255, 255, 0.4)"
-            }
-            break;
-        case CellState.hit || 2: // target hit
-            if (circle.value) {
-                console.log("changing cell style hit")
-                circle.value.style.stroke = "rgba(255, 0, 0, 1)"
-            }
-            break;
-        case CellState.marked || 3: // mark cell
-            if (circle.value) {
-                console.log("changing cell style marked")
-                circle.value.style.fill = "rgba(0, 255, 0, 1)"
-            }
-            break;
-        default:
-            break;
+watch(props, (update) => {
+    // console.log("cell state", update.state, props.state == CellState.miss, circle.value);
+    
+    if (update.state == CellState.miss) {
+        if (circle.value) {
+            circle.value.style.stroke = "rgba(255, 255, 255, 0.4)";
+            circle.value.style.fill = "rgba(0, 0, 0, 0)";
+        }
+    } else if (update.state == CellState.hit) {
+        if (circle.value) {
+            circle.value.style.stroke = "rgba(255, 0, 0, 1)";
+            circle.value.style.fill = "rgba(0, 0, 0, 0)";
+        }
     }
+    
+
 })
 
 </script>

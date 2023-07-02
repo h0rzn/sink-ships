@@ -14,7 +14,7 @@
 import { onMounted, ref } from 'vue';
 import FieldMap from './FieldMap.vue';
 import { Peer, DataConnection } from 'peerjs';
-import { Ship, Cords } from '@/GameHelpers';
+import { Ship, Cords, CellState } from '@/GameHelpers';
 
 const localID = ref<string>();
 const input = ref<HTMLInputElement>();
@@ -26,29 +26,19 @@ const ships = ref<Ship[]>([]);
 
 onMounted(() => {
     let ship1: Ship = {
-        x: [0, 3],
-        y: [0, 0],
+        x: [0, 0],
+        y: [0, 3],
     }
     ships.value?.push(ship1);
-
-    // let ship2: Ship = {
-    //     x: [0, 0],
-    //     y: [0, 3],
-    //     destroyed: false
-    // }
-    // ships.value?.push(ship2);
-
-    // mark ships
 
     ships.value.forEach((ship: Ship) => {
         for (let r = ship.y[0]; r <= ship.y[1]; r++) {
             for (let c = ship.x[0]; c <= ship.x[1]; c++) {
-                map.value.markCell(c, r);
+                map.value.updateCell(c, r, CellState.marked);
             }
         }
     })
 
-    // networking
     localPeer.value = new Peer();
     localPeer.value.on('open', (id: string) => {
         localID.value = id;
@@ -58,13 +48,14 @@ onMounted(() => {
         dataCon.value = con;
         
         dataCon.value.on("data", (data) => {
-            const cords = data as Cords; 
-            map.value.fireAt(cords.x, cords.y);
+            const cords = data as Cords;
+            console.log("IN: fire", cords);
             if (isHit(cords.x, cords.y)) {
-                console.log("remote shot is hit")
-                map.value.updateCell(cords.x, cords.y, 2)
+                console.log("remote shot is hit", cords.x, cords.y);
+                map.value.updateCell(cords.x, cords.y, CellState.hit);
             } else {
-                map.value.updateCell(cords.x, cords.y, 1)
+                console.log("remote shot is miss", cords.x, cords.y)
+                map.value.updateCell(cords.x, cords.y, CellState.miss);
             }
         })
     });
@@ -88,17 +79,19 @@ const afterpaste = () => {
 }
 
 const firedAt = (x: number, y: number) => {
-    console.log("[remote] fired: ", x, y);
+    console.log("OUT: fire", x, y);
     dataCon.value?.send({x: x, y: y});
 }
 
 const isHit = (x: number, y: number): boolean => {
+    let hit = false;
     ships.value?.forEach((ship: Ship) => {
         if (onShip(ship, x, y)) {
-            return true
+            hit = true;
+            return;
         }
     })
-    return false;
+    return hit;
 }
 
 const onShip = (ship: Ship, x: number, y: number): boolean => {
