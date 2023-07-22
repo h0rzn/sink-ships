@@ -28,3 +28,21 @@ export type Cell = {
 	item: Ref;
 }
 
+export type Move = {
+	author: string;
+	cords: Cords;
+	cellUpdate?: CellState;
+}
+
+
+export enum MessageTypes {
+	// + some sort of handshaking (starting player, ...)
+	shoot,
+	shotResponse
+}
+
+export type Message = {
+	author: string;
+	type: string;
+	data: any;
+}

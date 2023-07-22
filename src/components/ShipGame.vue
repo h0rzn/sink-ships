@@ -3,9 +3,10 @@
         <button @click="copyLocalID">copy local-ID</button>
         <input ref="input" value="" @paste="afterpaste"/>
     </div>
-    
     <div id="game">
-        <FieldMap ref="map" @fired="firedAt"/>
+        <p v-if="awaitingMove">Waiting for enemy move</p>
+        <p v-else>Its your turn</p>
+        <FieldMap ref="map" @fired="shootRemote"/>
     </div>
 
 </template>
@@ -14,12 +15,15 @@
 import { onMounted, ref } from 'vue';
 import FieldMap from './FieldMap.vue';
 import { Peer, DataConnection } from 'peerjs';
-import { Ship, Cords, CellState } from '@/GameHelpers';
+import { Ship, Cords, CellState, Move } from '@/GameHelpers';
 
 const localID = ref<string>();
 const input = ref<HTMLInputElement>();
 const localPeer = ref<Peer>();
 const dataCon = ref<DataConnection>();
+
+const awaitingMove = ref<boolean>(true);
+const lastMove = ref<Move | undefined>();
 
 const map = ref();
 const ships = ref<Ship[]>([]);
@@ -46,25 +50,54 @@ onMounted(() => {
     localPeer.value.on("connection", (con: DataConnection) => {
         console.log("[remote] connected to local");
         dataCon.value = con;
+        awaitingMove.value = false;
         
         dataCon.value.on("data", (data) => {
-            const cords = data as Cords;
-            console.log("IN: fire", cords);
-            if (isHit(cords.x, cords.y)) {
-                console.log("remote shot is hit", cords.x, cords.y);
-                map.value.updateCell(cords.x, cords.y, CellState.hit);
+            console.log("processing remote message");
+            const move = data as Move;
+            if (move && awaitingMove.value) {
+                handleMove(move);
             } else {
-                console.log("remote shot is miss", cords.x, cords.y)
-                map.value.updateCell(cords.x, cords.y, CellState.miss);
+                console.log("remote player made illegal move (not his turn)")
             }
         })
     });
-})
+});
+
+const validateMoveResponse = (move: Move): boolean => {
+    const lastX = lastMove.value?.cords.x;
+    const lastY = lastMove.value?.cords.y;
+    if (!lastX && !lastY) {
+        return false;
+    }
+
+    if (!move.cellUpdate) {
+        return false;
+    }
+
+    return lastX == move.cords.x && lastY == move.cords.y;
+}
+
+const handleMove = (move: Move) => {
+    if (!validateMoveResponse(move)) {
+        console.log("remote move response is not matching local move positions");
+        return;
+    }
+
+    console.log("IN: fire", move.cords);
+    if (isHit(move.cords.x, move.cords.y)) {
+        console.log("remote shot is hit", move.cords.x, move.cords.y);
+        map.value.updateCell(move.cords.x, move.cords.y, CellState.hit);
+    } else {
+        console.log("remote shot is miss", move.cords.x, move.cords.y)
+        map.value.updateCell(move.cords.x, move.cords.y, CellState.miss);
+    }
+}
 
 const copyLocalID = () => {
     if (localID.value) {
         navigator.clipboard.writeText(localID.value);
-        console.log("local id copied", localID.value)
+        console.log("local id copied", localID.value);
     }
 }
 
@@ -74,13 +107,24 @@ const afterpaste = () => {
         if (remoteID) {
             dataCon.value = localPeer.value?.connect(remoteID);
         }
-        console.log("[local] connected to remote", remoteID, dataCon.value);
+        console.log("[local] connected to remote");
     }, 500)
 }
 
-const firedAt = (x: number, y: number) => {
+const shootRemote = (x: number, y: number) => {
+    if (awaitingMove.value) {
+        return;
+    }
     console.log("OUT: fire", x, y);
-    dataCon.value?.send({x: x, y: y});
+    dataCon.value?.send(123);
+    
+    const move: Move = {
+        // author: localID.value ? localID.value : "player-id-here",
+        author: "player",
+        cords: {x: x, y: y},
+    }
+    lastMove.value = move;
+    dataCon.value?.send(move);
 }
 
 const isHit = (x: number, y: number): boolean => {
@@ -107,5 +151,10 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+}
+
+#game p {
+    color: #fff;
+    font-size: 20px;
 }
 </style>
