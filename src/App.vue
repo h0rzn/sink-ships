@@ -1,18 +1,26 @@
 <template>
   <div id="app-content">
-    <ShipGame />
+    <ShipGame v-if="devBtnClicked"/>
+    <HomeScreen v-else />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import ShipGame from './components/ShipGame.vue';
+import HomeScreen from './components/HomeScreen.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    ShipGame
-  }
+    ShipGame,
+    HomeScreen
+  },
+  data() {
+      return {
+        devBtnClicked: false,
+      }
+  },
 });
 </script>
 
