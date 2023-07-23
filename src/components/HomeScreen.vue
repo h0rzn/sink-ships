@@ -6,7 +6,9 @@
     <hr />
     <button class="create-button" disabled>New Game</button>
     <button class="create-button" @click="startGame">Dev button</button>
-    
+    <ModalWindow title="Join Game">
+      <p>join game content here</p>
+    </ModalWindow>
   </div>
   <div class="waves-wrapper">
     <svg
@@ -43,6 +45,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ShipGame from './ShipGame.vue';
+import ModalWindow from './base/ModalWindow.vue';
 
 const ingame = ref<boolean>(false);
 
@@ -84,7 +87,7 @@ const startGame = () => {
   margin-bottom: 10px;
   text-align: center;
 }
-input:focus{
+input:focus {
   outline: none;
 }
 
@@ -103,50 +106,47 @@ input:focus{
   color: #fff;
 }
 
-
 .waves-wrapper {
-width: 100%;
-height: 30%;
-display: flex;
-align-items: flex-end;
-overflow: hidden;
+  width: 100%;
+  height: 30%;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
 }
 
 .waves {
-position: relative;
-width: 100%;
-margin-bottom: -7px; /*Fix for safari gap*/
-min-height: 100px;
-max-height: 150px;
+  position: relative;
+  width: 100%;
+  margin-bottom: -7px; /*Fix for safari gap*/
+  min-height: 100px;
+  max-height: 150px;
 }
 /* Animation */
-
 .parallax > use {
-animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
 }
 .parallax > use:nth-child(1) {
-animation-delay: -2s;
-animation-duration: 7s;
+  animation-delay: -2s;
+  animation-duration: 7s;
 }
 .parallax > use:nth-child(2) {
-animation-delay: -3s;
-animation-duration: 10s;
+  animation-delay: -3s;
+  animation-duration: 10s;
 }
 .parallax > use:nth-child(3) {
-animation-delay: -4s;
-animation-duration: 13s;
+  animation-delay: -4s;
+  animation-duration: 13s;
 }
 .parallax > use:nth-child(4) {
-animation-delay: -5s;
-animation-duration: 20s;
+  animation-delay: -5s;
+  animation-duration: 20s;
 }
 @keyframes move-forever {
-0% {
-transform: translate3d(-90px, 0, 0);
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
 }
-100% {
-transform: translate3d(85px, 0, 0);
-}
-}
-
 </style>
