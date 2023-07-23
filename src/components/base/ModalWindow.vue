@@ -1,5 +1,4 @@
 <template>
-	<button @click="open">open modal</button>
 	<div id="modal" ref="modal">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -15,7 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, defineExpose, onMounted } from 'vue';
+
 
 const props = defineProps({
 	title: { type: String, required: true }
@@ -40,12 +40,18 @@ const close = () => {
 	}
 }
 
-window.onclick = function(event) {
-	const window = modal.value;
-	if (event.target == modal.value && window.value) {
-		window.style.display = "none";
+onMounted(() => {
+	let window = modal.value;
+	window.onclick = (event) => {
+		if (event.target == modal.value) {
+			modal.value.style.display = "none";
+		}
 	}
-}
+})
+
+defineExpose({
+	open
+})
 </script>
 
 <style>

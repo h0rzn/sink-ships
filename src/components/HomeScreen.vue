@@ -4,9 +4,9 @@
     <h1 class="title">Battleships</h1>
     <input id="gameid-input" placeholder="paste game id"/>
     <hr />
-    <button class="create-button" disabled>New Game</button>
-    <button class="create-button" @click="startGame">Dev button</button>
-    <ModalWindow title="Join Game">
+    <!-- <button class="create-button">New Game</button> -->
+    <button class="create-button" @click="openModal">Dev button</button>
+    <ModalWindow title="Join Game" ref="modal">
       <p>join game content here</p>
     </ModalWindow>
   </div>
@@ -48,9 +48,14 @@ import ShipGame from './ShipGame.vue';
 import ModalWindow from './base/ModalWindow.vue';
 
 const ingame = ref<boolean>(false);
+const modal = ref();
 
 const startGame = () => {
   ingame.value = true;
+}
+
+const openModal = () => {
+  modal.value.open();
 }
 
 </script>
