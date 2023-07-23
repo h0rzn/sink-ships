@@ -12,10 +12,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, defineProps } from 'vue';
 import FieldMap from './FieldMap.vue';
 import { Peer, DataConnection } from 'peerjs';
 import { Ship, Cords, CellState, Move } from '@/GameHelpers';
+
+const props = defineProps({
+  playerName: { type: String, required: true },
+  gameId: { type: String, required: false }
+})
 
 const localID = ref<string>();
 const input = ref<HTMLInputElement>();

@@ -1,11 +1,11 @@
 <template>
-<div id="home">
+<div v-if="!ingame" class="home-fullscreen">
   <div id="items">
     <h1 class="title">Battleships</h1>
     <input id="gameid-input" placeholder="paste game id"/>
     <hr />
-    <button class="create-button">New Game</button>
-    <button class="create-button">Dev button</button>
+    <button class="create-button" disabled>New Game</button>
+    <button class="create-button" @click="startGame">Dev button</button>
     
   </div>
   <div class="waves-wrapper">
@@ -33,14 +33,27 @@
   </div>
 </div>
 
+<div v-else id="game-wrapper" class="home-fullscreen">
+  <ShipGame player-name="testPlayerName" game-id="game-id-123"/>
+</div>
+
 <!-- https://masscode.io/snippets/ui/effects/2/ -->
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import ShipGame from './ShipGame.vue';
+
+const ingame = ref<boolean>(false);
+
+const startGame = () => {
+  ingame.value = true;
+}
+
 </script>
 
 <style>
-#home {
+.home-fullscreen {
   width: 100%;
   height: 100%;
 }
