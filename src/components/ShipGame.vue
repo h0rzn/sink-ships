@@ -1,7 +1,7 @@
 <template>
     <div id="game">
         <div id="status-bar">
-            <p id="timer">Game time: 04:47</p>
+            <IconTimer ref="timer"/>
             <ActivePlayer :active="awaitingMove"/>
         </div>
         <div id="game-body">
@@ -17,6 +17,7 @@ import { onMounted, ref } from 'vue';
 import FieldMap from './FieldMap.vue';
 import { Ship, CellState, Move } from '@/GameHelpers';
 import ActivePlayer from './ActivePlayer.vue';
+import IconTimer from './base/IconTimer.vue';
 
 defineProps({
   playerName: { type: String, required: true },
@@ -25,25 +26,28 @@ defineProps({
 
 const awaitingMove = ref<boolean>(true);
 
+const timer = ref();
+
 const remoteMap = ref();
 const localMap = ref();
 const ships = ref<Ship[]>([]);
 
-// onMounted(() => {
-//     let ship1: Ship = {
-//         x: [0, 0],
-//         y: [0, 3],
-//     }
-//     ships.value?.push(ship1);
+onMounted(() => {
+    timer.value.start()
+    // let ship1: Ship = {
+    //     x: [0, 0],
+    //     y: [0, 3],
+    // }
+    // ships.value?.push(ship1);
 
-//     ships.value.forEach((ship: Ship) => {
-//         for (let r = ship.y[0]; r <= ship.y[1]; r++) {
-//             for (let c = ship.x[0]; c <= ship.x[1]; c++) {
-//                 localMap.value.updateCell(c, r, CellState.marked);
-//             }
-//         }
-//     })
-// });
+    // ships.value.forEach((ship: Ship) => {
+    //     for (let r = ship.y[0]; r <= ship.y[1]; r++) {
+    //         for (let c = ship.x[0]; c <= ship.x[1]; c++) {
+    //             localMap.value.updateCell(c, r, CellState.marked);
+    //         }
+    //     }
+    // })
+});
 
 const handleLocalShot = (x: number, y: number) => {
     console.log()
