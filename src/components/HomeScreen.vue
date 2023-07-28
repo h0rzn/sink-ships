@@ -8,6 +8,7 @@
     <button class="create-button" @click="openModal">Dev button</button>
     <ModalWindow title="Join Game" ref="modal">
       <p>join game content here</p>
+      <button @click="startGame">start</button>
     </ModalWindow>
   </div>
   <div class="waves-wrapper">

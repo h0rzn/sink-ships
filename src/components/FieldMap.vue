@@ -1,7 +1,7 @@
 <template>
     <div id="map">
-        <div class="cell" v-for="(cell, index) in cells" :key="index">
-            <MapCell :key="index" :ref="cell.item" @cell-fired="cellFired" :row="cell.x" :col="cell.y" :state="cell.state"/>
+        <div class="cell" v-for="(cell, index) in cells" :key="index" @mouseover="console.log(123)">
+            <MapCell :key="index" :ref="cell.item" @cell-clicked="cellFired" :row="cell.x" :col="cell.y" :state="cell.state"/>
         </div>
     </div>
 </template>
@@ -64,7 +64,7 @@ function updateCell(x: number, y: number, state: number) {
     display: grid; 
     grid-template-rows: 25% 25% 25% 25%;
     grid-template-columns: 25% 25% 25% 25%;
-    border: 1px solid #fff;
+    background-color: #303030;
     border-radius: 10%;
 }
 

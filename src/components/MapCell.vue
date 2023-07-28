@@ -32,6 +32,10 @@ onMounted(() => {
             emit("cell-fired", props.row, props.col);
         }
     })
+
+    circle.value?.addEventListener("mouseover", () => {
+        console.log("cell hover", props.row, props.col)
+    })
 })
 
 watch(props, (update) => {
