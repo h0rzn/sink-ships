@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import MapCell from './MapCell.vue';
-import { Cell, CellState } from '../GameHelpers';
+import { Cell, CellState } from '@/GameHelpers';
 
 defineExpose({
     updateCell

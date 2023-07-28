@@ -1,5 +1,4 @@
 <template>
-
 	<div id="active-player">
 		<div ref="enemy" id="enemy-box" class="player-box" :class="{ active: active }">
 			<p>Enemy</p>

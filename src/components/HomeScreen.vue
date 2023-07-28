@@ -2,13 +2,12 @@
 <div v-if="!ingame" class="home-fullscreen">
   <div id="items">
     <h1 class="title">Battleships</h1>
-    <input id="gameid-input" placeholder="paste game id"/>
-    <hr />
-    <!-- <button class="create-button">New Game</button> -->
-    <button class="create-button" @click="openModal">Dev button</button>
+    <button class="action-button" @click="openModal">Join Game</button>
+    <button class="action-button" @click="openModal">Create Game</button>
     <ModalWindow title="Join Game" ref="modal">
       <p>join game content here</p>
-      <button @click="startGame">start</button>
+      <input id="gameid-input" />
+      <button class="action-button" @click="startGame">start</button>
     </ModalWindow>
   </div>
   <div class="waves-wrapper">
@@ -45,7 +44,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ShipGame from './ShipGame.vue';
+import ShipGame from './game/ShipGame.vue';
 import ModalWindow from './base/ModalWindow.vue';
 
 const ingame = ref<boolean>(false);
@@ -75,12 +74,6 @@ const openModal = () => {
   align-items: center;
 }
 
-#items hr {
-  width: 150px;
-  color: #fff;
-  margin: 20px 0px;
-}
-
 .title {
   color: #fff;
 }
@@ -88,8 +81,10 @@ const openModal = () => {
 #gameid-input {
   border: none;
   border-radius: 10px;
-  padding: 12px;
-  background-color: #fff;
+  padding: 12px 0px;
+  width: 170px;
+  color: #fff;
+  background-color: #303030;
   margin-bottom: 10px;
   text-align: center;
 }
@@ -97,17 +92,18 @@ input:focus {
   outline: none;
 }
 
-.create-button {
+.action-button {
   border: none;
-  background-color: #fff;
+  background-color: #303030;
+  color: #fff;
+  width: 170px;
   border-radius: 10px;
   padding: 12px;
   margin-top: 12px;
   cursor: pointer;
   transition: transform .3s;
 }
-.create-button:hover {
-  transform: scale(1.05);
+.action-button:hover {
   background-color: rgba(84,58,183,0.9);
   color: #fff;
 }

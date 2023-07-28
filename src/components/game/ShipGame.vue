@@ -16,8 +16,8 @@
 import { onMounted, ref } from 'vue';
 import FieldMap from './FieldMap.vue';
 import { Ship, CellState, Move } from '@/GameHelpers';
-import ActivePlayer from './ActivePlayer.vue';
-import IconTimer from './base/IconTimer.vue';
+import ActivePlayer from '../ActivePlayer.vue';
+import IconTimer from '../base/IconTimer.vue';
 
 defineProps({
   playerName: { type: String, required: true },
