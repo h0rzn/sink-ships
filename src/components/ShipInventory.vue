@@ -13,7 +13,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ShipItem from './ShipItem.vue';
-// import OldShipItem from './OldShipItem.vue';
 
 const ship = ref<HTMLElement>();
 

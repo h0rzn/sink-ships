@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import { defineEmits, defineProps } from 'vue';
 import { CellState } from '../GameHelpers';
 
 const props = defineProps<{

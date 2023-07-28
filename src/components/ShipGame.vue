@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, defineProps } from 'vue';
+import { onMounted, ref } from 'vue';
 import FieldMap from './FieldMap.vue';
 import { Ship, Cords, CellState, Move } from '@/GameHelpers';
 import ActivePlayer from './ActivePlayer.vue';

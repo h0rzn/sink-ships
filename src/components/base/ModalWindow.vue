@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineExpose, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 
 const props = defineProps({
@@ -42,7 +42,7 @@ const close = () => {
 
 onMounted(() => {
 	let window = modal.value;
-	window.onclick = (event) => {
+	window.onclick = (event: MouseEvent) => {
 		if (event.target == modal.value) {
 			modal.value.style.display = "none";
 		}
