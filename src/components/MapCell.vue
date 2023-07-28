@@ -15,7 +15,7 @@ const props = defineProps<{
     state: number 
 }>()
 
-const emit = defineEmits(['cell-fired']);
+const emit = defineEmits(['click']);
 const circle = ref<SVGElement>();
 const hoverableCls = ref("hoverable");
 const fadeOutCls = ref("fadeout");
@@ -29,13 +29,13 @@ onMounted(() => {
 
     circle.value?.addEventListener("click", () => {
         if (props.state == CellState.raw || props.state == CellState.marked) {
-            emit("cell-fired", props.row, props.col);
+            emit("click", props.row, props.col);
         }
     })
 
-    circle.value?.addEventListener("mouseover", () => {
-        console.log("cell hover", props.row, props.col)
-    })
+    // circle.value?.addEventListener("mouseover", () => {
+        
+    // })
 })
 
 watch(props, (update) => {

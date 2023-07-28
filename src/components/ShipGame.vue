@@ -14,7 +14,6 @@
 <script setup lang="ts">
 import { onMounted, ref, defineProps } from 'vue';
 import FieldMap from './FieldMap.vue';
-import { Peer, DataConnection } from 'peerjs';
 import { Ship, Cords, CellState, Move } from '@/GameHelpers';
 import ActivePlayer from './ActivePlayer.vue';
 
