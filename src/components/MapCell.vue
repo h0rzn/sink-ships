@@ -14,7 +14,7 @@ const props = defineProps<{
     state: number 
 }>()
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click', 'hover']);
 const circle = ref<SVGElement>();
 const hoverableCls = ref("hoverable");
 const fadeOutCls = ref("fadeout");
@@ -32,9 +32,9 @@ onMounted(() => {
         }
     })
 
-    // circle.value?.addEventListener("mouseover", () => {
-        
-    // })
+    circle.value?.addEventListener("mouseover", () => {
+        emit("hover", props.row, props.col)
+    })
 })
 
 watch(props, (update) => {
@@ -63,7 +63,7 @@ watch(props, (update) => {
     transition: transform .2s;
 }
 .hoverable:hover {
-    transform: scale(1.2, 1.2);
+    transform: scale(1.1, 1.1);
 }
 
 .fadeout {

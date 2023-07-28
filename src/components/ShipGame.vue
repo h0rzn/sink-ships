@@ -5,7 +5,8 @@
             <ActivePlayer :active="awaitingMove"/>
         </div>
         <div id="game-body">
-            <FieldMap ref="map" @fired="handleLocalShot"/>
+            <FieldMap ref="remoteMap" @fired="handleLocalShot"/>
+            <FieldMap ref="localMap" @fired="handleLocalShot"/>
         </div>
     </div>
 
@@ -14,34 +15,35 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import FieldMap from './FieldMap.vue';
-import { Ship, Cords, CellState, Move } from '@/GameHelpers';
+import { Ship, CellState, Move } from '@/GameHelpers';
 import ActivePlayer from './ActivePlayer.vue';
 
-const props = defineProps({
+defineProps({
   playerName: { type: String, required: true },
   gameId: { type: String, required: false }
 })
 
 const awaitingMove = ref<boolean>(true);
 
-const map = ref();
+const remoteMap = ref();
+const localMap = ref();
 const ships = ref<Ship[]>([]);
 
-onMounted(() => {
-    let ship1: Ship = {
-        x: [0, 0],
-        y: [0, 3],
-    }
-    ships.value?.push(ship1);
+// onMounted(() => {
+//     let ship1: Ship = {
+//         x: [0, 0],
+//         y: [0, 3],
+//     }
+//     ships.value?.push(ship1);
 
-    ships.value.forEach((ship: Ship) => {
-        for (let r = ship.y[0]; r <= ship.y[1]; r++) {
-            for (let c = ship.x[0]; c <= ship.x[1]; c++) {
-                map.value.updateCell(c, r, CellState.marked);
-            }
-        }
-    })
-});
+//     ships.value.forEach((ship: Ship) => {
+//         for (let r = ship.y[0]; r <= ship.y[1]; r++) {
+//             for (let c = ship.x[0]; c <= ship.x[1]; c++) {
+//                 localMap.value.updateCell(c, r, CellState.marked);
+//             }
+//         }
+//     })
+// });
 
 const handleLocalShot = (x: number, y: number) => {
     console.log()
@@ -53,10 +55,10 @@ const handleMove = (move: Move) => {
     console.log("IN: fire", move.cords);
     if (isHit(move.cords.x, move.cords.y)) {
         console.log("remote shot is hit", move.cords.x, move.cords.y);
-        map.value.updateCell(move.cords.x, move.cords.y, CellState.hit);
+        localMap.value.updateCell(move.cords.x, move.cords.y, CellState.hit);
     } else {
         console.log("remote shot is miss", move.cords.x, move.cords.y)
-        map.value.updateCell(move.cords.x, move.cords.y, CellState.miss);
+        localMap.value.updateCell(move.cords.x, move.cords.y, CellState.miss);
     }
 }
 
@@ -108,7 +110,7 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
     width: 100%;
     flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 }
 </style>

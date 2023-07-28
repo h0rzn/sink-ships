@@ -1,7 +1,7 @@
 <template>
     <div id="map">
         <div class="cell" v-for="(cell, index) in cells" :key="index">
-            <MapCell :key="index" :ref="cell.item" @click="onCellClick" :row="cell.x" :col="cell.y" :state="cell.state"/>
+            <MapCell :key="index" :ref="cell.item" @click="onCellClick" @hover="onCellHover" :row="cell.x" :col="cell.y" :state="cell.state"/>
         </div>
     </div>
 </template>
@@ -37,13 +37,17 @@ onMounted(() => {
 })
 
 const onCellClick = (x: number, y: number) => {
-    console.log("clicked")
+    console.log("clicked", x, y)
     let cell = getCell(x, y);
     if (cell) {
         if (cell.state == CellState.raw || cell.state == CellState.marked) {
             emit("fired", x, y);
         }
     }
+}
+
+const onCellHover = (x: number, y: number) => {
+    console.log("hover", x, y)
 }
 
 const getCell = (x: number, y: number): Cell | undefined => {
