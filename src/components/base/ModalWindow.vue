@@ -67,17 +67,16 @@ defineExpose({
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
   position: relative;
-  background-color: #fefefe;
   margin: auto;
   padding: 0;
-  border: 1px solid #888;
-  width: 80%;
+  border-radius: 20px;
+  width: 600px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
@@ -102,30 +101,30 @@ defineExpose({
   float: right;
   font-size: 28px;
   font-weight: bold;
+  transition: transform 0.2s;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
+  color: #242424;
   text-decoration: none;
   cursor: pointer;
 }
 
 .modal-header {
   padding: 2px 16px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   background-color: rgba(83, 58, 183, 0.857);
   color: white;
 }
 
 .modal-body {
-	padding: 2px 16px;
+  padding: 2px 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 	background-color: #242424;
 	color: #fff;
-}
-
-.modal-footer {
-  padding: 2px 16px;
-  background-color: #5cb85c;
-  color: white;
+  padding-bottom: 20px;
 }
 </style>
