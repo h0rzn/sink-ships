@@ -8,7 +8,7 @@
                 <IconTimer ref="timer" id="timer" />
             </div>
             <PlayerScores :enemy="9" :player="5" />
-            <ActivePlayer :active="awaitingMove" />
+            <ActivePlayer :active="!awaitingMove" />
         </div>
         <div id="game-body">
             <FieldMap ref="remoteMap" @fired="handleLocalShot"/>

@@ -1,9 +1,9 @@
 <template>
 	<div id="active-player">
-		<div ref="enemy" id="enemy-box" class="player-box" :class="{ active: active }">
+		<div ref="enemy" class="player-box" :class="{ active: active }">
 			<p>Enemy</p>
 		</div>
-		<div ref="player" id="player-box" class="player-box" :class="{ playerActive: active }">
+		<div ref="player" class="player-box" :class="{ playerActive: !active }">
 			<p>You</p>
 		</div>
 	</div>
@@ -24,12 +24,13 @@ const player = ref();
 
 <style>
 #active-player {
-	width: 200px;
+	width: 300px;
 	height: 40px;
 	background-color: #303030;
 	border-radius: 10px;
 	padding: 10px;
 	display: flex;
+	column-gap: 10px;
 	justify-content: space-evenly;
 	cursor: default;
 }
@@ -41,6 +42,7 @@ const player = ref();
 .playerActive {
 	background-color: rgb(32, 213, 195);
 }
+
 .player-box {
 	border-radius: 10px;
 	width: 100%;
@@ -48,8 +50,6 @@ const player = ref();
 	justify-content: center;
 	align-items: center;
 	font-weight: 800;
+	transition: background-color 100ms linear;
 }
-
-
-
 </style>
