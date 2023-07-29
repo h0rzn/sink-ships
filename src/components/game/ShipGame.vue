@@ -133,6 +133,6 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
     flex: 1;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: flex-start;
 }
 </style>
