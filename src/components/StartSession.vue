@@ -1,16 +1,16 @@
 <template>
 	<ModalWindow ref="modal" :title="getTitle()">
 
-		<div v-if="type === 'join'">
+		<div class="start-session-content" v-if="type === 'join'">
 			<input placeholder="game id" />
 			<input placeholder="username" />
-			<button class="action-button">join</button>
+			<button class="action-button" @click="onSubmit">join</button>
 		</div>
 
-		<div v-else>
+		<div class="start-session-content" v-else>
 			<input placeholder="game name" />
 			<input placeholder="username" />
-			<button class="action-button">create</button>
+			<button class="action-button" @click="onSubmit">create</button>
 		</div>
 		
 	</ModalWindow>
@@ -19,6 +19,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ModalWindow from './base/ModalWindow.vue';
+
+const emit = defineEmits(['submit'])
+
 
 const props = defineProps({
 	type: { type: String, required: true }
@@ -38,8 +41,12 @@ const getTitle = (): string => {
 	return props.type.charAt(0).toUpperCase() + props.type.slice(1) + " Game";
 }
 
-defineExpose({open})
+const onSubmit = () => {
+	console.log("start session: submit")
+	emit("submit", "data here...")
+}
 
+defineExpose({open})
 </script>
 
 <style>
@@ -50,5 +57,9 @@ input {
 	color: #fff;
 	padding: 10px;
 	margin: 5px;
+}
+
+.start-session-content {
+	margin-top: 10px;
 }
 </style>

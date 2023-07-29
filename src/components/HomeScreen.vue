@@ -4,7 +4,7 @@
     <h1 class="title">Battleships</h1>
     <button class="action-button" @click="openSessionWindow('join')">Join Game</button>
     <button class="action-button" @click="openSessionWindow('create')">Create Game</button>
-    <StartSession ref="startSessionWin" :type="startType"/>
+    <StartSession ref="startSessionWin" :type="startType" @submit="onSessionStart"/>
   </div>
   <WavesContainer />
 </div>
@@ -33,6 +33,14 @@ const startGame = () => {
 const openSessionWindow = (type: string) => {
   startType.value = type;
   startSessionWin.value.open(type);
+}
+
+const onSessionStart = (data: string) => {
+  console.log("session start:", data);
+  
+  // ...
+
+  startGame();
 }
 
 </script>
