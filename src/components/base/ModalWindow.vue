@@ -3,7 +3,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<span class="close" @click="close">&times;</span>
-				<h1>{{ title }}</h1>
+        <h1>{{ title }}</h1>
 			</div>
 			<div class="modal-body">
 				<slot />
@@ -126,5 +126,7 @@ defineExpose({
 	background-color: #242424;
 	color: #fff;
   padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 </style>
