@@ -1,8 +1,12 @@
 <template>
     <div id="game">
         <div id="status-bar">
+            <div id="go-back">
+                &times; back
+            </div>
             <IconTimer ref="timer"/>
-            <ActivePlayer :active="awaitingMove"/>
+            <ActivePlayer :active="awaitingMove" />
+            <PlayerScores :enemy="9" :player="5" />
         </div>
         <div id="game-body">
             <FieldMap ref="remoteMap" @fired="handleLocalShot"/>
@@ -18,6 +22,7 @@ import FieldMap from './FieldMap.vue';
 import { Ship, CellState, Move } from '@/GameHelpers';
 import ActivePlayer from '../ActivePlayer.vue';
 import IconTimer from '../base/IconTimer.vue';
+import PlayerScores from './PlayerScores.vue';
 
 defineProps({
   playerName: { type: String, required: true },
@@ -103,6 +108,7 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    color: #fff;
 }
 
 #timer {
