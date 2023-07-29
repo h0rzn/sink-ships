@@ -1,12 +1,14 @@
 <template>
     <div id="game">
         <div id="status-bar">
-            <div id="go-back">
-                &times; back
+            <div id="top">
+                <div id="go-back">
+                    &times; back
+                </div>
+                <IconTimer ref="timer" id="timer" />
             </div>
-            <IconTimer ref="timer"/>
-            <ActivePlayer :active="awaitingMove" />
             <PlayerScores :enemy="9" :player="5" />
+            <ActivePlayer :active="awaitingMove" />
         </div>
         <div id="game-body">
             <FieldMap ref="remoteMap" @fired="handleLocalShot"/>
@@ -105,15 +107,25 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
 
 #status-bar {
     width: 100%;
-    height: 15%;
+    height: 35%;
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     color: #fff;
 }
 
+#top {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
 #go-back {
     cursor: pointer;
+    font-size: 20px;
+    height: 25px;
 }
 
 #game-body {
