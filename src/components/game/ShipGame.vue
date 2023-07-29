@@ -100,6 +100,7 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
 
 #game p {
     color: #fff;
+    cursor: default;
 }
 
 #status-bar {
@@ -111,10 +112,9 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
     color: #fff;
 }
 
-#timer {
-    font-size: 25px;
+#go-back {
+    cursor: pointer;
 }
-
 
 #game-body {
     width: 100%;

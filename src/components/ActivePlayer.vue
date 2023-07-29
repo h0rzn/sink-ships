@@ -26,11 +26,12 @@ const player = ref();
 #active-player {
 	width: 200px;
 	height: 40px;
-	background-color: #535353;
+	background-color: #303030;
 	border-radius: 10px;
 	padding: 10px;
 	display: flex;
 	justify-content: space-evenly;
+	cursor: default;
 }
 
 .active {
@@ -46,6 +47,7 @@ const player = ref();
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-weight: 800;
 }
 
 
