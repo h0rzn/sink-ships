@@ -20,11 +20,7 @@ const hoverableCls = ref("hoverable");
 const fadeOutCls = ref("fadeout");
 
 onMounted(() => {
-    if (props.state == CellState.marked) {
-        if (circle.value) {
-            circle.value.style.fill = "rgba(0, 255, 0, 1)"
-        }
-    }
+    updateStyle(props.state);
 
     circle.value?.addEventListener("click", () => {
         if (props.state == CellState.raw || props.state == CellState.marked) {
@@ -37,23 +33,36 @@ onMounted(() => {
     })
 })
 
-watch(props, (update) => {
-    // console.log("cell state", update.state, props.state == CellState.miss, circle.value);
-    
-    if (update.state == CellState.miss) {
-        if (circle.value) {
+const updateStyle = (state: number) => {
+    if (!circle.value) {
+        return
+    }
+    switch (state) {
+        case 0:
+            circle.value.style.stroke = "rgba(255, 255, 255, 1)";
+            circle.value.style.fill = "rgba(0, 0, 0, 0)";
+            break;
+        case 1:
             circle.value.style.stroke = "rgba(255, 255, 255, 0.4)";
             circle.value.style.fill = "rgba(0, 0, 0, 0)";
-        }
-    } else if (update.state == CellState.hit) {
-        if (circle.value) {
+            break;
+        case 2:
             circle.value.style.stroke = "rgba(255, 0, 0, 1)";
             circle.value.style.fill = "rgba(0, 0, 0, 0)";
-        }
+            break;
+        case 3:
+            circle.value.style.fill = "rgba(0, 255, 0, 1)"
+            break;
+        default:
+            break;
     }
-    
+}
 
+watch(props, (update) => {
+    updateStyle(update.state)
 })
+
+defineExpose({updateStyle})
 
 </script>
 

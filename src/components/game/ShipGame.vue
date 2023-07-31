@@ -1,35 +1,47 @@
 <template>
     <div id="game">
-        <div id="status-bar">
+        <div v-if="state === 0" id="status-bar">
             <div id="top">
                 <div id="go-back">
                     &times; back
                 </div>
-                <IconTimer ref="timer" id="timer" />
+                <IconTimer ref="timer" />
             </div>
             <PlayerScores :enemy="9" :player="5" />
             <ActivePlayer :active="!awaitingMove" />
         </div>
-        <div id="game-body">
-            <FieldMap ref="remoteMap" @fired="handleLocalShot"/>
-            <FieldMap ref="localMap" @fired="handleLocalShot"/>
+
+        <div v-if="state === 0" id="game-body">
+            <ShipInventory />
+            <BaseMap />
         </div>
+
+
+        <div v-else id="game-body">
+            <p>game over</p>
+        </div>
+
     </div>
 
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import FieldMap from './FieldMap.vue';
 import { Ship, CellState, Move } from '@/GameHelpers';
 import ActivePlayer from '../ActivePlayer.vue';
 import IconTimer from '../base/IconTimer.vue';
 import PlayerScores from './PlayerScores.vue';
+import ShipInventory from './ShipInventory.vue';
+import PlaceMap from './PlaceMap.vue';
+import BaseMap from './BaseMap.vue';
 
 defineProps({
   playerName: { type: String, required: true },
   gameId: { type: String, required: false }
 })
+
+
+const state = ref<number>(0);
 
 const awaitingMove = ref<boolean>(true);
 
@@ -40,7 +52,11 @@ const localMap = ref();
 const ships = ref<Ship[]>([]);
 
 onMounted(() => {
-    timer.value.start()
+    // remove this
+    if (state.value === 0) {
+        timer.value.start()
+    }
+    
     // let ship1: Ship = {
     //     x: [0, 0],
     //     y: [0, 3],
