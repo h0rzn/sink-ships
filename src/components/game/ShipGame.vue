@@ -13,7 +13,7 @@
 
         <div v-if="state === 0" id="game-body">
             <ShipInventory />
-            <BaseMap />
+            <PlaceMap />
         </div>
 
 
@@ -32,8 +32,7 @@ import ActivePlayer from '../ActivePlayer.vue';
 import IconTimer from '../base/IconTimer.vue';
 import PlayerScores from './PlayerScores.vue';
 import ShipInventory from './ShipInventory.vue';
-import PlaceMap from './PlaceMap.vue';
-import BaseMap from './BaseMap.vue';
+import PlaceMap from './map/PlaceMap.vue';
 
 defineProps({
   playerName: { type: String, required: true },
