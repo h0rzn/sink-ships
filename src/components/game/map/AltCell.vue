@@ -91,14 +91,17 @@ defineExpose({mark, unmark})
 }
 
 .cell span {
-    border-radius: 6px;
+    position: absolute;
+    border-radius: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #1f1f1f;
     color: rgb(165, 165, 165);
-    height: 28px;
-    width: 28px; 
+    height: 90%;
+    width: 90%; 
+    top: 50%;
+    transform: translate(0, -50%);
 }
 
 .hit {
