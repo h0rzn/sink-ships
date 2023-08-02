@@ -6,7 +6,7 @@
         @click="onClick"
         @mouseover="onMouseOver"
         @mouseleave="onMouseLeave"
-    />
+    ><span></span></div>
 
 </template>
 
@@ -77,8 +77,28 @@ defineExpose({mark, unmark})
 
 
 .cell {
-    border-radius: 5px;
-    border: 1px solid #4a4a4a;
+    display: flex;
+    user-select: none;
+    position: relative;
+    border: 1px solid #1f1f1f;
+    background: transparent;
+    align-items: center;
+    justify-content: center;
+}
+
+.cell:hover {
+    background: #b4b4b4;
+}
+
+.cell span {
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1f1f1f;
+    color: rgb(165, 165, 165);
+    height: 28px;
+    width: 28px; 
 }
 
 .hit {
