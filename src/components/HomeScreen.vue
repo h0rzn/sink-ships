@@ -22,7 +22,7 @@ import ShipGame from './game/ShipGame.vue';
 import StartSession from './StartSession.vue';
 import WavesContainer from './base/WavesContainer.vue';
 
-const ingame = ref<boolean>(false);
+const ingame = ref<boolean>(true);
 const startSessionWin = ref();
 const startType = ref<string>("create");
 
