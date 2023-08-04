@@ -31,7 +31,7 @@ const playerWidth = computed(() => {
 <style>
 #scores {
 	width: 450px;
-	height: 20px;
+	height: 8px;
 	background-color: #303030;
 	border-radius: 10px;
 	display: flex;
@@ -48,14 +48,14 @@ const playerWidth = computed(() => {
 }
 
 .bar-enemy {
-	height: 20px;
+	height: 100%;
 	border-radius: 10px 0px 0px 10px;
 	background-color: #FF4A4A;
 	
 }
 
 .bar-player {
-	height: 20px;
+	height: 100%;
 	border-radius: 0 10px 10px 0;
 	background-color: #00FFA3;
 }
