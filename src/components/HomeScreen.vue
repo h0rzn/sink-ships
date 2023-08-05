@@ -48,7 +48,7 @@ const onSessionStart = (data: string) => {
 <style>
 .home-fullscreen {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 #items {

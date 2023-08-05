@@ -19,6 +19,7 @@ export default defineComponent({
 <style>
 html, body {
   margin: 0;
+  background-color: #242424;
 }
 
 #app {
@@ -31,6 +32,6 @@ html, body {
 
 #app-content {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 </style>

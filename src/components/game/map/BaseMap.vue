@@ -19,7 +19,7 @@
 			</template>
 		</div>
 	</div>
-	<button @click="markMode = !markMode; console.log('toggled markmode')">toggle marking</button>
+	<!-- <button @click="markMode = !markMode; console.log('toggled markmode')">toggle marking</button> -->
 </template>
 
 <script setup lang="ts">

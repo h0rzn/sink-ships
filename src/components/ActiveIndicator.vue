@@ -1,6 +1,6 @@
 <template>
 	<div id="indicator-wrapper">
-		<div ref="arrow" @click="toggle" class="arrow-icon" :class="{ open : open }">
+		<div ref="arrow" @click="toggle" class="arrow-icon" :class="{ open : open}">
 			<span class="left-bar"></span>
 			<span class="right-bar"></span>
 		</div>
@@ -22,17 +22,20 @@ defineExpose({toggle})
 
 </script>
 
-<style scoped>
+<style>
+/*
 #indicator-wrapper {
-	height: 400px;
-}
+	transform: rotate(90deg);
+	width: 100px;
+	height: 100px;
+} */
+
 
 .arrow-icon {
 	height: 2.8em;
 	width: 2.8em;
 	display: block;
 	padding: 0.5em;
-	margin: 1em auto;
 	position: relative;
 	cursor: pointer;
 	border-radius: 4px;

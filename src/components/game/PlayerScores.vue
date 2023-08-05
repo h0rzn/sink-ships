@@ -30,7 +30,8 @@ const playerWidth = computed(() => {
 
 <style>
 #scores {
-	width: 450px;
+	/* width: 450px; */
+	width: 100%;
 	height: 8px;
 	background-color: #303030;
 	border-radius: 10px;

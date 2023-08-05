@@ -1,46 +1,52 @@
 <template>
     <div id="game">
-        <div v-if="state === 0" id="status-bar">
-            <div id="top">
-                <div id="go-back">
-                    &times; back
-                </div>
-                <IconTimer ref="timer" />
-            </div>
-            <PlayerScores :enemy="9" :player="5" />
-            <ActivePlayer :active="!awaitingMove" />
+
+        <div v-if="state === 0">loading...</div>
+        
+        <div id="status-bar" v-if="state === 2">
+            <a id="go-back">&times; back</a>
+            <IconTimer ref="timer" />
+            <PlayerScores class="score" :enemy="9" :player="5" />
+        </div>
+        <div id="game-body">
+            <template v-if="state === 1">
+                <ShipInventory />
+                <PlaceMap />
+            </template>
+            <template v-if="state === 2">
+                <PlayMap class="map-local" />
+                <ActiveIndicator class="active-indicator" />
+                <PlayMap class="map-enemy"/>
+            </template>
         </div>
 
-        <div v-if="state === 0" id="game-body">
-            <ShipInventory />
-            <PlaceMap />
-        </div>
-
-
-        <div v-else id="game-body">
-            <p>game over</p>
+        <div v-if="state === 3">
+            <p>you won</p>
         </div>
 
     </div>
-
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { Ship, CellState, Move } from '@/GameHelpers';
-import ActivePlayer from '../ActivePlayer.vue';
 import IconTimer from '../base/IconTimer.vue';
 import PlayerScores from './PlayerScores.vue';
 import ShipInventory from './ShipInventory.vue';
 import PlaceMap from './map/PlaceMap.vue';
+import PlayMap from './map/PlayMap.vue';
+import ActiveIndicator from '../ActiveIndicator.vue';
 
 defineProps({
   playerName: { type: String, required: true },
   gameId: { type: String, required: false }
 })
 
-
-const state = ref<number>(0);
+// 0 -> loading (prepare, waiting for oponent)
+// 1 -> placement phase
+// 2 -> playing phase
+// 3 -> game ended (win/loss)
+const state = ref<number>(2);
 
 const awaitingMove = ref<boolean>(true);
 
@@ -121,20 +127,15 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
 }
 
 #status-bar {
-    width: 100%;
-    height: 35%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    color: #fff;
-}
-
-#top {
     width: 90%;
-    display: flex;
-    justify-content: space-between;
+    height: 25%;
+    padding: 15px;
+    color: #fff;
 
+    display: grid;
+    grid-template-columns: 90% 10%;
+    grid-template-rows: 1fr auto;
+    row-gap: 15px;
 }
 
 #go-back {
@@ -143,11 +144,57 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
     height: 25px;
 }
 
+.score {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+}
+
 #game-body {
     width: 100%;
-    flex: 1;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-start;
+    display: grid;
+    padding: 15px;
+    grid-template-columns: auto 100px auto;
+    gap: 0;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "map1 ind map2";
+
 }
+
+.map-local {
+    grid-area: map1;
+    display: flex;
+    justify-content: center;
+}
+
+.map-enemy {
+    grid-area: map2;
+    display: flex;
+    justify-content: center;
+}
+
+.active-indicator { 
+    grid-area: ind;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 800px) {
+	#game-body {
+        grid-template-columns: 100%;
+        grid-template-rows: auto 100px auto;
+        
+        grid-template-areas:
+            "map1"
+            "ind"
+            "map2";
+	}
+
+    #indicator-wrapper .arrow-icon {
+        transform: rotate(0deg);
+    }
+
+}
+
 </style>
