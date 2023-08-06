@@ -6,7 +6,7 @@
         <div id="status-bar" v-if="state === 2">
             <a id="go-back">&times; back</a>
             <IconTimer ref="timer" />
-            <PlayerScores class="score" :enemy="9" :player="5" />
+            <PlayerScores class="score" :enemy="9" :player="5" :max=12 />
         </div>
         <div id="game-body">
             <template v-if="state === 1">
@@ -128,13 +128,13 @@ const onShip = (ship: Ship, x: number, y: number): boolean => {
 
 #status-bar {
     width: 90%;
-    height: 25%;
+    height: 20vh;
     padding: 15px;
     color: #fff;
 
     display: grid;
     grid-template-columns: 90% 10%;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: 1fr 1fr;
     row-gap: 15px;
 }
 
